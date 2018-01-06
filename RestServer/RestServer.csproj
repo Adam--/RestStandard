@@ -39,7 +39,11 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRoute.cs" />
+    <Compile Include="Route\IRoute.cs" />
+    <Compile Include="IServer.cs" />
+    <Compile Include="Route\RegExRoute.cs" />
+    <Compile Include="Route\PredicateRoute.cs" />
+    <Compile Include="Route\DirectRoute.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
