@@ -1,9 +1,11 @@
 ﻿
 using RestServer;
+using RestServer.Route;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Sample
 {
@@ -15,7 +17,7 @@ namespace Sample
 
             Server.Create()
                   .With(
-                      new Route(
+                      new DirectRoute(
                           HttpMethod.Get,
                           "/",
                           async (req, resp) =>
@@ -23,13 +25,16 @@ namespace Sample
                               await resp.WriteContentAsync($"hello at {DateTime.Now}");
                           }))
                   .With(
-                      new Route(
+                      new DirectRoute(
                           HttpMethod.Post,
                           "/echo",
                           async (req, resp) =>
                           {
                               var content = await req.ReadContentAsStringAsync();
-                              await resp.WriteContentAsync(content);
+                              //await resp.WriteContentAsync(content);
+                              var parameters = req.Url.ParseQueryParameters();
+                              var parameterJson = JsonConvert.SerializeObject(parameters);
+                              await resp.WriteContentAsync(content + parameterJson);
                           }
                           ))
                   .Listen(IPAddress.Any, 8081);

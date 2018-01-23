@@ -39,6 +39,8 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRouter.cs" />
+    <Compile Include="Router.cs" />
     <Compile Include="Route\IRoute.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Route\RegExRoute.cs" />

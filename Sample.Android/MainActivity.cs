@@ -5,6 +5,8 @@ using RestServer;
 using System.Net;
 using System;
 using Android.Net.Wifi;
+using RestServer.Route;
+using System.Net.Http;
 
 namespace Sample.Android
 {
@@ -18,16 +20,23 @@ namespace Sample.Android
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            var server = new Server();
-            server.AddGet("/", async (req, resp) =>
-            {
-                await resp.WriteContentAsync($"hello at {DateTime.Now}");
-            });
-            server.AddPost("/echo", async (req, resp) =>
-            {
-                var content = await req.ReadContentAsStringAsync();
-                await resp.WriteContentAsync(content);
-            });
+            var server = new Server()
+                .With(new DirectRoute(
+                        HttpMethod.Get,
+                        "/",
+                        async (req, resp) =>
+                        {
+                            await resp.WriteContentAsync($"hello at {DateTime.Now}");
+                        }));
+            //server.AddGet("/", async (req, resp) =>
+            //{
+            //    await resp.WriteContentAsync($"hello at {DateTime.Now}");
+            //});
+            //server.AddPost("/echo", async (req, resp) =>
+            //{
+            //    var content = await req.ReadContentAsStringAsync();
+            //    await resp.WriteContentAsync(content);
+            //});
 
             WifiManager manager = (WifiManager)GetSystemService(Service.WifiService);
             var ipAddress = new IPAddress(manager.ConnectionInfo.IpAddress);
